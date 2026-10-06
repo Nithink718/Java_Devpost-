@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DevKit - Utility Workbench</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css?v=7">
+</head>
+<body>
+    <div class="sidebar">
+        <svg class="sidebar-leaf" viewBox="0 0 100 100" style="position:absolute; bottom:60px; left:-10px; width:80px; height:80px; opacity:0.1; color:#B58A44;">
+           <path fill="currentColor" d="M10,90 Q30,40 80,10 Q60,60 10,90 Z" />
+           <path fill="currentColor" d="M10,90 Q40,60 90,50 Q60,80 10,90 Z" />
+        </svg>
+
+        <div class="brand">
+            <i data-lucide="crown" class="brand-icon" style="width:32px; height:32px; stroke-width: 2;"></i>
+            <div>
+                <div class="brand-title">DevKit</div>
+                <div class="brand-sub">UTILITY WORKBENCH</div>
+            </div>
+        </div>
+        
+        <div class="sidebar-scroll">
+            <div class="nav-label" style="margin-top:0.5rem;">Workspace: <span id="ws-name-display" style="color:var(--gold-primary);">Default</span></div>
+            <a href="#" class="nav-item active" data-view="dashboard" onclick="nav('dashboard')"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+            <a href="#" class="nav-item" data-view="api" onclick="nav('api')"><i data-lucide="globe"></i> API Collections</a>
+            <a href="#" class="nav-item" data-view="env" onclick="nav('env')"><i data-lucide="server"></i> Environments</a>
+            <a href="#" class="nav-item" data-view="snippets" onclick="nav('snippets')"><i data-lucide="code-2"></i> Snippets & Notes</a>
+            <a href="#" class="nav-item" data-view="history" onclick="nav('history')"><i data-lucide="history"></i> History</a>
+            
+            <div class="nav-label">Command Center</div>
+            <a href="#" class="nav-item" data-view="json" onclick="nav('json')"><i data-lucide="brackets"></i> JSON Formatter</a>
+            <a href="#" class="nav-item" data-view="regex" onclick="nav('regex')"><i data-lucide="search-code"></i> Regex Explain</a>
+            <a href="#" class="nav-item" data-view="hash" onclick="nav('hash')"><i data-lucide="hash"></i> Hash Generator</a>
+            <a href="#" class="nav-item" data-view="diff" onclick="nav('diff')"><i data-lucide="git-compare"></i> Diff Checker</a>
+            <a href="#" class="nav-item" data-view="error" onclick="nav('error')"><i data-lucide="alert-triangle"></i> Error Analyzer</a>
+            <a href="#" class="nav-item" data-view="cron" onclick="nav('cron')"><i data-lucide="clock"></i> Cron Builder</a>
+            <a href="#" class="nav-item" data-view="webhook" onclick="nav('webhook')"><i data-lucide="radio-receiver"></i> Webhook Tester</a>
+        </div>
+        
+        <div style="padding: 1rem; border-top: 1px solid var(--border-light); z-index:11;">
+            <a href="#" class="nav-item" data-view="settings" onclick="nav('settings')" style="padding: 0.5rem;"><i data-lucide="settings"></i> Settings / Data</a>
+        </div>
+    </div>
+
+    <div class="main-area">
+        <div class="topbar">
+            <div class="search-bar" onclick="openCmd()">
+                <i data-lucide="search"></i> <span>Search tools, commands, or anything...</span> <kbd>Ctrl K</kbd>
+            </div>
+            <div class="topbar-right">
+                <div class="top-icon"><i data-lucide="sun"></i></div>
+                <div class="top-icon"><i data-lucide="bell"></i><div class="dot"></div></div>
+                <div class="avatar">C</div>
+            </div>
+        </div>
+        
+        <div class="content" id="app-content">
+            <!-- DASHBOARD VIEW -->
+            <section id="view-dashboard" class="view active">
+                
+                <div class="hero-luxury">
+                    <div class="hero-text">
+                        <div class="hero-eyebrow"><i data-lucide="crown" style="width:14px; height:14px; stroke-width:3;"></i> WELCOME TO DEVKIT</div>
+                        <div class="hero-title">Your All-in-One Utility Toolbox</div>
+                        <div class="hero-sub">Simple tools. Powerful utilities. Built for developers.</div>
+                    </div>
+                    <i data-lucide="crown" class="hero-svg-crown" style="width: 140px; height: 140px; position:absolute; right:5rem; top:50%; transform:translateY(-50%); color:#C49B5B; opacity:0.9; stroke-width:1.5; filter: drop-shadow(0 15px 25px rgba(181,138,68,0.4)); z-index:10;"></i>
+                    <div style="position:absolute; right: -80px; top: -100px; width: 450px; height: 450px; border-radius: 50%; border: 40px solid rgba(181,138,68,0.08); pointer-events:none;"></div>
+                    <div style="position:absolute; right: 20px; top: 0px; width: 250px; height: 250px; border-radius: 50%; border: 20px solid rgba(181,138,68,0.05); pointer-events:none;"></div>
+                </div>
+                
+                <div class="filters">
+                    <div class="filter-pill active"><i data-lucide="layout-grid"></i> All Tools</div>
+                    <div class="filter-pill"><i data-lucide="server"></i> Workspace</div>
+                    <div class="filter-pill"><i data-lucide="shield"></i> Security</div>
+                    <div class="filter-pill"><i data-lucide="type"></i> Text</div>
+                    <div class="filter-pill"><i data-lucide="alert-triangle"></i> Debug</div>
+                </div>
+                
+                <div class="grid">
+                    <div class="card indigo" onclick="nav('api')">
+                        <div class="card-header"><div class="card-icon-box"><i data-lucide="globe"></i></div><i data-lucide="star" style="color:#C69A4A; width:18px;"></i></div>
+                        <div class="card-title">API Collections</div>
+                        <div class="card-desc">Manage, test, and save HTTP requests directly in your workspace.</div>
+                        <div class="card-footer"><span class="card-badge">WORKSPACE</span><div class="card-arrow"><i data-lucide="arrow-right"></i></div></div>
+                    </div>
+                    
+                    <div class="card teal" onclick="nav('env')">
+                        <div class="card-header"><div class="card-icon-box"><i data-lucide="server"></i></div><i data-lucide="star" style="color:#C69A4A; width:18px;"></i></div>
+                        <div class="card-title">Environments</div>
+                        <div class="card-desc">Manage API keys and local variables safely.</div>
+                        <div class="card-footer"><span class="card-badge">WORKSPACE</span><div class="card-arrow"><i data-lucide="arrow-right"></i></div></div>
+                    </div>
+
+                    <div class="card blue" onclick="nav('json')">
+                        <div class="card-header"><div class="card-icon-box"><i data-lucide="brackets"></i></div><i data-lucide="star" style="color:#ccc; width:18px;"></i></div>
+                        <div class="card-title">JSON Formatter</div>
+                        <div class="card-desc">Format, validate and inspect JSON instantly.</div>
+                        <div class="card-footer"><span class="card-badge">DATA</span><div class="card-arrow"><i data-lucide="arrow-right"></i></div></div>
+                    </div>
+
+                    <div class="card pink" onclick="nav('hash')">
+                        <div class="card-header"><div class="card-icon-box"><i data-lucide="hash"></i></div><i data-lucide="star" style="color:#ccc; width:18px;"></i></div>
+                        <div class="card-title">Hash Generator</div>
+                        <div class="card-desc">SHA-1, SHA-256/384/512 and MD5 digests.</div>
+                        <div class="card-footer"><span class="card-badge">SECURITY</span><div class="card-arrow"><i data-lucide="arrow-right"></i></div></div>
+                    </div>
+
+                    <div class="card orange" onclick="nav('diff')">
+                        <div class="card-header"><div class="card-icon-box"><i data-lucide="git-compare"></i></div><i data-lucide="star" style="color:#ccc; width:18px;"></i></div>
+                        <div class="card-title">Diff Checker</div>
+                        <div class="card-desc">Compare two texts line by line, Git-style.</div>
+                        <div class="card-footer"><span class="card-badge">TEXT</span><div class="card-arrow"><i data-lucide="arrow-right"></i></div></div>
+                    </div>
+                    
+                    <div class="card red" onclick="nav('error')">
+                        <div class="card-header"><div class="card-icon-box"><i data-lucide="alert-triangle"></i></div><i data-lucide="star" style="color:#ccc; width:18px;"></i></div>
+                        <div class="card-title">Error Analyzer</div>
+                        <div class="card-desc">Parse stack traces and find likely causes instantly.</div>
+                        <div class="card-footer"><span class="card-badge">DEBUG</span><div class="card-arrow"><i data-lucide="arrow-right"></i></div></div>
+                    </div>
+                    
+                    <div class="card orange" onclick="nav('cron')">
+                        <div class="card-header"><div class="card-icon-box"><i data-lucide="clock"></i></div><i data-lucide="star" style="color:#ccc; width:18px;"></i></div>
+                        <div class="card-title">Cron Builder</div>
+                        <div class="card-desc">Visually build and explain Cron expressions.</div>
+                        <div class="card-footer"><span class="card-badge">SERVER</span><div class="card-arrow"><i data-lucide="arrow-right"></i></div></div>
+                    </div>
+
+                    <div class="card gold" onclick="nav('regex')">
+                        <div class="card-header"><div class="card-icon-box"><i data-lucide="search-code"></i></div><i data-lucide="star" style="color:#ccc; width:18px;"></i></div>
+                        <div class="card-title">Regex Explain</div>
+                        <div class="card-desc">Test patterns and break down components.</div>
+                        <div class="card-footer"><span class="card-badge">TEXT</span><div class="card-arrow"><i data-lucide="arrow-right"></i></div></div>
+                    </div>
+
+                    <div class="card pink" onclick="nav('webhook')">
+                        <div class="card-header"><div class="card-icon-box"><i data-lucide="radio-receiver"></i></div><i data-lucide="star" style="color:#ccc; width:18px;"></i></div>
+                        <div class="card-title">Webhook Tester</div>
+                        <div class="card-desc">Mock webhook endpoints and inspect payloads.</div>
+                        <div class="card-footer"><span class="card-badge">NETWORK</span><div class="card-arrow"><i data-lucide="arrow-right"></i></div></div>
+                    </div>
+                    
+                    <div class="card green" onclick="nav('settings')">
+                        <div class="card-header"><div class="card-icon-box"><i data-lucide="database"></i></div><i data-lucide="star" style="color:#ccc; width:18px;"></i></div>
+                        <div class="card-title">Data Backup</div>
+                        <div class="card-desc">Export and backup your DevKit environment.</div>
+                        <div class="card-footer"><span class="card-badge">SYSTEM</span><div class="card-arrow"><i data-lucide="arrow-right"></i></div></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- API COLLECTIONS -->
+            <section class="view" id="view-api">
+                <div class="page-header"><div><h1>API Collections</h1><p>Test and save API requests within this workspace.</p></div><button class="btn btn-primary" onclick="createApiReq()"><i data-lucide="plus"></i> New Request</button></div>
+                <div class="ide-split">
+                    <div class="ide-pane side" id="api-list"></div>
+                    <div class="ide-pane main">
+                        <div class="ide-toolbar">
+                            <select class="input mono" style="width:100px; padding:0.4rem 1rem;" id="api-method"><option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option></select>
+                            <input type="text" class="input mono" id="api-url" placeholder="https://api.example.com/v1/users" style="padding:0.4rem 1rem;">
+                            <button class="btn btn-primary" onclick="sendApi()" style="padding:0.4rem 1.25rem;">Send</button>
+                            <button class="btn" onclick="saveApi()"><i data-lucide="save"></i></button>
+                        </div>
+                        <div class="ide-tabbar"><div class="ide-tab active">Headers</div><div class="ide-tab">Body</div></div>
+                        <textarea class="ide-editor" id="api-headers" placeholder='{ "Authorization": "Bearer token" }'></textarea>
+                        <div class="ide-statusbar" style="border-top:2px solid var(--border-light); border-bottom:none; border-radius:0; color:var(--text-dark); font-weight:700;">Response</div>
+                        <textarea class="ide-editor" id="api-response" readonly placeholder="Response will appear here..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ENVIRONMENTS -->
+            <section class="view" id="view-env">
+                <div class="page-header"><div><h1>Environments</h1><p>Manage workspace variables. <span style="color:var(--error); font-weight:600;">Local browser storage is NOT a secure secret vault.</span></p></div><button class="btn btn-primary" onclick="addEnv()"><i data-lucide="plus"></i> Add Variable</button></div>
+                <div class="ide-split vertical" style="padding:1.5rem;" id="env-list"></div>
+            </section>
+
+            <!-- ERROR ANALYZER -->
+            <section class="view" id="view-error">
+                <div class="page-header"><div><h1>Error Analyzer</h1><p>Paste a stack trace to parse components and get likely causes.</p></div></div>
+                <div class="ide-split vertical">
+                    <div class="ide-pane" style="flex: 0.4;">
+                        <div class="ide-tabbar"><div class="ide-tab active">Stack Trace Input</div></div>
+                        <textarea class="ide-editor" id="error-input" placeholder="Paste Exception stack trace here..."></textarea>
+                        <div class="ide-toolbar justify-between"><button class="btn btn-primary" onclick="analyzeError()">Analyze Stack</button></div>
+                    </div>
+                    <div class="ide-pane" style="flex: 0.6; border-top: 1px solid var(--border-light);">
+                        <div class="ide-tabbar"><div class="ide-tab active">Analysis Result</div></div>
+                        <div class="ide-editor" id="error-output" style="overflow-y:auto;">
+                            <div class="text-muted" style="text-align:center; margin-top:2rem;">Awaiting input...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CRON BUILDER -->
+            <section class="view" id="view-cron">
+                <div class="page-header"><div><h1>Cron Expression Builder</h1><p>Visually build and decode cron schedules.</p></div></div>
+                <div class="flex gap-4 mb-4" style="margin-bottom:1.5rem;">
+                    <input type="text" class="input mono" id="cron-input" value="*/5 * * * *" style="font-size:1.5rem; text-align:center; padding:1.5rem; border-color:var(--gold-primary);" onkeyup="parseCron()">
+                </div>
+                <div class="code-block" style="text-align:center; font-size:1.25rem; font-weight:700; color:var(--success); margin-bottom:1.5rem;" id="cron-human">Every 5 minutes</div>
+                <div class="flex gap-2">
+                    <div class="cron-part"><div class="cron-val" id="cp-min">*/5</div><div class="cron-label">Minute</div></div>
+                    <div class="cron-part"><div class="cron-val" id="cp-hr">*</div><div class="cron-label">Hour</div></div>
+                    <div class="cron-part"><div class="cron-val" id="cp-day">*</div><div class="cron-label">Day</div></div>
+                    <div class="cron-part"><div class="cron-val" id="cp-mon">*</div><div class="cron-label">Month</div></div>
+                    <div class="cron-part"><div class="cron-val" id="cp-wk">*</div><div class="cron-label">Weekday</div></div>
+                </div>
+                <div class="mt-4">
+                    <h4 style="margin-bottom:0.5rem; color:var(--text-muted);">Presets</h4>
+                    <div class="flex gap-2" style="flex-wrap:wrap;">
+                        <button class="btn" onclick="setCron('* * * * *')">Every minute</button>
+                        <button class="btn" onclick="setCron('0 * * * *')">Every hour</button>
+                        <button class="btn" onclick="setCron('0 0 * * *')">Every day</button>
+                        <button class="btn" onclick="setCron('0 0 * * 1-5')">Every weekday</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WEBHOOK TESTER -->
+            <section class="view" id="view-webhook">
+                <div class="page-header"><div><h1>Webhook Tester</h1><p>Local/Mock mode: Inspect incoming JSON payloads.</p></div></div>
+                <div class="ide-split">
+                    <div class="ide-pane side" id="wh-list">
+                        <div class="ide-tabbar"><div class="ide-tab">Request History</div></div>
+                    </div>
+                    <div class="ide-pane main">
+                        <div class="ide-toolbar justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="badge post">MOCK POST</span>
+                                <span class="mono text-muted" style="font-size:0.8rem; font-weight:700;">/hook/local-test</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="fireMockWebhook()" style="padding:0.4rem 1rem;"><i data-lucide="zap"></i> Fire Mock Event</button>
+                        </div>
+                        <div class="ide-tabbar"><div class="ide-tab active">Headers & Body</div></div>
+                        <div class="ide-editor" id="wh-details">Waiting for webhook...</div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- REGEX EXPLAIN -->
+            <section class="view" id="view-regex">
+                <div class="page-header"><div><h1>Regex Explain</h1><p>Test patterns and break down components.</p></div></div>
+                <div class="ide-split vertical">
+                    <div class="ide-pane">
+                        <div class="ide-toolbar"><input type="text" class="input mono" id="rx-in" value="^[a-zA-Z0-9]+@[a-z]+\.[a-z]{2,}$"><button class="btn btn-primary" onclick="explainRegex()" style="padding:0.5rem 1.5rem;">Explain</button></div>
+                        <div class="ide-editor" id="rx-out" style="overflow-y:auto;">Press explain to parse components.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- JSON WORKSPACE -->
+            <section class="view" id="view-json">
+                <div class="page-header"><div><h1>JSON Formatter</h1><p>Format, validate and inspect JSON instantly.</p></div></div>
+                <div class="ide-split">
+                    <div class="ide-pane">
+                        <div class="ide-tabbar"><div class="ide-tab active">INPUT</div></div>
+                        <textarea id="json-input" class="ide-editor" spellcheck="false" placeholder="Paste JSON here..."></textarea>
+                    </div>
+                    <div class="ide-pane" style="border-left:1px solid var(--border-light);">
+                        <div class="ide-tabbar"><div class="ide-tab active">OUTPUT</div></div>
+                        <pre id="json-output" class="ide-editor"></pre>
+                    </div>
+                </div>
+                <div class="ide-statusbar">
+                    <span>UTF-8</span><span>2 Spaces</span><span id="json-status">Waiting for input</span>
+                </div>
+                <div class="floating-toolbar">
+                    <button onclick="formatJson()"><i data-lucide="align-left"></i> Format JSON</button>
+                    <button onclick="minifyJson()"><i data-lucide="minimize"></i> Minify JSON</button>
+                </div>
+            </section>
+
+            <!-- HASH WORKSPACE -->
+            <section class="view" id="view-hash">
+                <div class="page-header"><div><h1>Hash Generator</h1><p>Generate cryptographic digests securely.</p></div></div>
+                <div class="ide-split vertical">
+                    <div class="ide-pane" style="flex:0.6;">
+                        <div class="ide-tabbar"><div class="ide-tab active">INPUT TEXT</div></div>
+                        <textarea id="hash-input" class="ide-editor" placeholder="Enter text to hash..."></textarea>
+                    </div>
+                    <div class="ide-pane" style="flex:0.4; border-top:1px solid var(--border-light);">
+                        <div class="ide-tabbar"><div class="ide-tab active">ALGORITHM & OUTPUT</div></div>
+                        <div style="display:flex; gap:1rem; padding:1.5rem; border-bottom:1px solid var(--border-light);">
+                            <select id="hash-algo" class="input mono" style="width:200px;">
+                                <option value="SHA-256">SHA-256</option>
+                                <option value="SHA-1">SHA-1</option>
+                                <option value="SHA-384">SHA-384</option>
+                                <option value="SHA-512">SHA-512</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="generateHash()">Generate Hash</button>
+                        </div>
+                        <div style="padding:1.5rem; display:flex; gap:1rem;">
+                            <input type="text" id="hash-output" class="input mono" readonly placeholder="Result will appear here..." style="flex:1;">
+                            <button class="btn" onclick="copyHash()"><i data-lucide="copy"></i> Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DIFF WORKSPACE -->
+            <section class="view" id="view-diff">
+                <div class="page-header"><div><h1>Diff Checker</h1><p>Compare two texts line by line, Git-style.</p></div></div>
+                <div class="ide-split" style="min-height:30vh;">
+                    <div class="ide-pane">
+                        <div class="ide-tabbar"><div class="ide-tab active">ORIGINAL</div></div>
+                        <textarea id="diff-1" class="ide-editor" spellcheck="false">System.out.println("Hello");</textarea>
+                    </div>
+                    <div class="ide-pane" style="border-left:1px solid var(--border-light);">
+                        <div class="ide-tabbar"><div class="ide-tab active">MODIFIED</div></div>
+                        <textarea id="diff-2" class="ide-editor" spellcheck="false">System.out.println("Hello DevKit");</textarea>
+                    </div>
+                </div>
+                <div class="ide-split mt-4" style="min-height:25vh;">
+                    <div class="ide-pane">
+                        <div class="ide-tabbar"><div class="ide-tab active">RESULT</div></div>
+                        <div id="diff-result" class="ide-editor code-block" style="background:#fff; border:none; padding:1.5rem;"></div>
+                    </div>
+                </div>
+                <div class="floating-toolbar"><button onclick="runDiff()"><i data-lucide="git-compare"></i> Run Diff</button></div>
+            </section>
+            
+            <!-- SNIPPETS WORKSPACE -->
+            <section class="view" id="view-snippets">
+                <div class="page-header"><div><h1>Snippets & Notes</h1><p>Your reusable code pieces and developer documentation.</p></div><button class="btn btn-primary" onclick="createSnippet()"><i data-lucide="plus"></i> New Note</button></div>
+                <div class="ide-split">
+                    <div class="ide-pane side" id="snippet-list"></div>
+                    <div class="ide-pane main" id="snippet-editor"><div class="empty-state">Select a note or create a new one.</div></div>
+                </div>
+            </section>
+
+            <!-- HISTORY WORKSPACE -->
+            <section class="view" id="view-history">
+                <div class="page-header"><div><h1>Activity History</h1><p>Recent activity across your tools.</p></div></div>
+                <div class="code-block" style="background:#fff; padding:2rem;" id="timeline-list"></div>
+            </section>
+
+            <!-- SETTINGS & DATA -->
+            <section class="view" id="view-settings">
+                <div class="page-header"><div><h1>Settings & Data</h1><p>Manage your DevKit local storage.</p></div></div>
+                <div class="code-block" style="margin-bottom:1rem; padding:2rem; background:#fff;">
+                    <h3 style="margin-bottom:1rem; font-family:var(--font-serif); font-size:1.5rem;">Import / Export</h3>
+                    <p style="color:var(--text-muted); margin-bottom:1.5rem;">Export all your Workspaces, APIs, Snippets, and Environments to a JSON file for backup.</p>
+                    <div class="flex gap-2">
+                        <button class="btn btn-primary" onclick="exportData()"><i data-lucide="download"></i> Export Data</button>
+                        <button class="btn btn-danger" onclick="clearData()"><i data-lucide="trash-2"></i> Clear All Data</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- CMD PALETTE MODAL -->
+    <div id="cmd-overlay" class="modal-overlay" onclick="if(event.target===this) closeCmd()">
+        <div class="cmd-palette">
+            <div class="cmd-header">
+                <i data-lucide="search"></i>
+                <input type="text" id="cmd-input" class="cmd-input" placeholder="Search tools...">
+            </div>
+            <div class="cmd-results" id="cmd-results"></div>
+        </div>
+    </div>
+    
+    <div id="toast-container"></div>
+    <script src="app.js?v=7"></script>
+</body>
+</html>
