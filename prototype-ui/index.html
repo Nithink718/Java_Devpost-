@@ -5,9 +5,70 @@
     <title>DevKit - Utility Workbench</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=12">
 </head>
 <body>
+    <style>
+        .hero-bg { position: absolute; top:0; left:0; width:100%; height:100%; background-color: #faf8f5; background-image: radial-gradient(rgba(181, 138, 68, 0.25) 1.5px, transparent 1.5px); background-size: 35px 35px; opacity: 1; z-index: 0; }
+        .float-icon { position: absolute; color: var(--gold-primary); opacity: 0.3; filter: drop-shadow(0 5px 10px rgba(181,138,68,0.2)); animation: floatAnim 8s ease-in-out infinite; }
+        @keyframes floatAnim { 0% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-25px) rotate(8deg); } 100% { transform: translateY(0px) rotate(0deg); } }
+        .glass-card { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 30px; padding: 4rem 5rem; box-shadow: 0 30px 80px rgba(181, 138, 68, 0.15); z-index: 5; display: flex; flex-direction: column; align-items: center; text-align: center; max-width:800px; }
+        .hero-badge { background: rgba(181, 138, 68, 0.1); color: var(--gold-primary); padding: 0.5rem 1rem; border-radius: 50px; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px; border: 1px solid rgba(181, 138, 68, 0.2); }
+        .mock-window { position: absolute; background: white; border-radius: 12px; box-shadow: 0 25px 50px rgba(0,0,0,0.08); padding: 1.5rem; z-index: 2; opacity: 0.9; }
+        .mock-dot { width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:4px; }
+    </style>
+    <div id="landing-page" style="position:fixed; top:0; left:0; width:100%; height:100%; background:var(--bg-main); z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; transition: opacity 0.5s ease, transform 0.5s ease; overflow:hidden;">
+        <!-- Background Elements -->
+        <div class="hero-bg"></div>
+        <div style="position:absolute; top:-10%; left:-10%; width:60%; height:60%; background:radial-gradient(circle, rgba(181, 138, 68, 0.15) 0%, transparent 60%); z-index:1;"></div>
+        <div style="position:absolute; bottom:-10%; right:-10%; width:60%; height:60%; background:radial-gradient(circle, rgba(181, 138, 68, 0.15) 0%, transparent 60%); z-index:1;"></div>
+        
+        <!-- Floating Tech Icons -->
+        <i data-lucide="brackets" class="float-icon" style="width:140px; height:140px; top:12%; left:45%; animation-delay: 0s;"></i>
+        <i data-lucide="database" class="float-icon" style="width:90px; height:90px; top:18%; left:30%; animation-delay: -2s;"></i>
+        <i data-lucide="globe" class="float-icon" style="width:160px; height:160px; bottom:15%; right:45%; animation-delay: -4s;"></i>
+        <i data-lucide="code-2" class="float-icon" style="width:110px; height:110px; bottom:20%; right:30%; animation-delay: -6s;"></i>
+
+        <!-- Floating Mock Window LEFT -->
+        <div class="mock-window" style="top:25%; left:8%; width:320px; transform: rotate(-6deg); animation: floatAnim 9s ease-in-out infinite;">
+            <div style="margin-bottom:1rem;"><span class="mock-dot" style="background:#ff5f56;"></span><span class="mock-dot" style="background:#ffbd2e;"></span><span class="mock-dot" style="background:#27c93f;"></span></div>
+            <pre style="font-family:var(--font-mono); font-size:0.85rem; color:#d73a49; line-height:1.5; text-align:left; margin:0;">{
+  <span style="color:#22863a;">"status"</span>: <span style="color:#005cc5;">200</span>,
+  <span style="color:#22863a;">"method"</span>: <span style="color:#032f62;">"API Collections"</span>,
+  <span style="color:#22863a;">"payload"</span>: {
+    <span style="color:#22863a;">"local"</span>: <span style="color:#005cc5;">true</span>
+  }
+}</pre>
+        </div>
+
+        <!-- Floating Mock Window RIGHT -->
+        <div class="mock-window" style="bottom:22%; right:8%; width:340px; background:#24292e; color:#e1e4e8; transform: rotate(5deg); animation: floatAnim 10s ease-in-out infinite reverse;">
+            <div style="margin-bottom:1rem;"><span class="mock-dot" style="background:#ff5f56;"></span><span class="mock-dot" style="background:#ffbd2e;"></span><span class="mock-dot" style="background:#27c93f;"></span></div>
+            <div style="font-family:var(--font-mono); font-size:0.85rem; color:#85e89d; margin-bottom:0.5rem; text-align:left;">$ devkit hash --algo SHA-256</div>
+            <div style="font-family:var(--font-mono); font-size:0.85rem; color:#b392f0; margin-bottom:0.5rem; text-align:left;">> "secure_password"</div>
+            <div style="font-family:var(--font-mono); font-size:0.85rem; color:#f97583; word-break:break-all; text-align:left;">e72b0c3...99e821a</div>
+        </div>
+
+        <!-- Glassmorphism Container -->
+        <div class="glass-card">
+            <div style="margin-bottom:1.5rem;">
+                <i data-lucide="crown" style="width:75px; height:75px; color:var(--gold-primary); stroke-width:2; filter: drop-shadow(0 10px 15px rgba(181,138,68,0.4));"></i>
+            </div>
+            <div class="hero-badge" style="margin-bottom: 1.5rem;">V1.0 - PROTOTYPE</div>
+            <h1 style="font-family:var(--font-serif); font-size:5rem; color:var(--text-dark); margin-bottom:1rem; line-height:1.1;">DevKit</h1>
+            <p style="font-size:1.25rem; color:var(--text-muted); max-width:450px; margin-bottom:2rem; line-height:1.6; font-weight:500;">Your highly secure, local-first developer command center.</p>
+            
+            <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-bottom:3rem;">
+                <span class="hero-badge"><i data-lucide="zap" style="width:14px; height:14px; display:inline-block; vertical-align:middle; margin-right:4px;"></i> 0ms Latency</span>
+                <span class="hero-badge"><i data-lucide="lock" style="width:14px; height:14px; display:inline-block; vertical-align:middle; margin-right:4px;"></i> 100% Private</span>
+                <span class="hero-badge"><i data-lucide="layout-grid" style="width:14px; height:14px; display:inline-block; vertical-align:middle; margin-right:4px;"></i> 12+ Utilities</span>
+            </div>
+
+            <button class="btn btn-primary" style="padding:1.25rem 3.5rem; font-size:1.2rem; border-radius:50px; display:flex; align-items:center; gap:0.75rem; transition: all 0.3s; box-shadow:0 10px 25px rgba(181, 138, 68, 0.3); cursor:pointer; font-weight:600;" onclick="enterApp()" onmouseover="this.style.transform='translateY(-4px) scale(1.03)'; this.style.boxShadow='0 20px 40px rgba(181, 138, 68, 0.45)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 10px 25px rgba(181, 138, 68, 0.3)';">
+                Enter Workspace <i data-lucide="arrow-right"></i>
+            </button>
+        </div>
+    </div>
     <div class="sidebar">
         <svg class="sidebar-leaf" viewBox="0 0 100 100" style="position:absolute; bottom:60px; left:-10px; width:80px; height:80px; opacity:0.1; color:#B58A44;">
            <path fill="currentColor" d="M10,90 Q30,40 80,10 Q60,60 10,90 Z" />
@@ -32,7 +93,7 @@
             
             <div class="nav-label">Command Center</div>
             <a href="#" class="nav-item" data-view="json" onclick="nav('json')"><i data-lucide="brackets"></i> JSON Formatter</a>
-            <a href="#" class="nav-item" data-view="regex" onclick="nav('regex')"><i data-lucide="search-code"></i> Regex Explain</a>
+            <a href="#" class="nav-item" data-view="tokens" onclick="nav('tokens')"><i data-lucide="key"></i> Encoding & Tokens</a>
             <a href="#" class="nav-item" data-view="hash" onclick="nav('hash')"><i data-lucide="hash"></i> Hash Generator</a>
             <a href="#" class="nav-item" data-view="diff" onclick="nav('diff')"><i data-lucide="git-compare"></i> Diff Checker</a>
             <a href="#" class="nav-item" data-view="error" onclick="nav('error')"><i data-lucide="alert-triangle"></i> Error Analyzer</a>
@@ -73,11 +134,11 @@
                 </div>
                 
                 <div class="filters">
-                    <div class="filter-pill active"><i data-lucide="layout-grid"></i> All Tools</div>
-                    <div class="filter-pill"><i data-lucide="server"></i> Workspace</div>
-                    <div class="filter-pill"><i data-lucide="shield"></i> Security</div>
-                    <div class="filter-pill"><i data-lucide="type"></i> Text</div>
-                    <div class="filter-pill"><i data-lucide="alert-triangle"></i> Debug</div>
+                    <div class="filter-pill active" onclick="filterTools('ALL', this)"><i data-lucide="layout-grid"></i> All Tools</div>
+                    <div class="filter-pill" onclick="filterTools('WORKSPACE', this)"><i data-lucide="server"></i> Workspace</div>
+                    <div class="filter-pill" onclick="filterTools('SECURITY', this)"><i data-lucide="shield"></i> Security</div>
+                    <div class="filter-pill" onclick="filterTools('TEXT', this)"><i data-lucide="type"></i> Text</div>
+                    <div class="filter-pill" onclick="filterTools('DEBUG', this)"><i data-lucide="alert-triangle"></i> Debug</div>
                 </div>
                 
                 <div class="grid">
@@ -130,11 +191,11 @@
                         <div class="card-footer"><span class="card-badge">SERVER</span><div class="card-arrow"><i data-lucide="arrow-right"></i></div></div>
                     </div>
 
-                    <div class="card gold" onclick="nav('regex')">
-                        <div class="card-header"><div class="card-icon-box"><i data-lucide="search-code"></i></div><i data-lucide="star" style="color:#ccc; width:18px;"></i></div>
-                        <div class="card-title">Regex Explain</div>
-                        <div class="card-desc">Test patterns and break down components.</div>
-                        <div class="card-footer"><span class="card-badge">TEXT</span><div class="card-arrow"><i data-lucide="arrow-right"></i></div></div>
+                    <div class="card gold" onclick="nav('tokens')">
+                        <div class="card-header"><div class="card-icon-box"><i data-lucide="key"></i></div><i data-lucide="star" style="color:#ccc; width:18px;"></i></div>
+                        <div class="card-title">Encoding & Tokens</div>
+                        <div class="card-desc">Decode JWTs locally and encode/decode Base64.</div>
+                        <div class="card-footer"><span class="card-badge">SECURITY</span><div class="card-arrow"><i data-lucide="arrow-right"></i></div></div>
                     </div>
 
                     <div class="card pink" onclick="nav('webhook')">
@@ -243,13 +304,81 @@
                 </div>
             </section>
             
-            <!-- REGEX EXPLAIN -->
-            <section class="view" id="view-regex">
-                <div class="page-header"><div><h1>Regex Explain</h1><p>Test patterns and break down components.</p></div></div>
-                <div class="ide-split vertical">
-                    <div class="ide-pane">
-                        <div class="ide-toolbar"><input type="text" class="input mono" id="rx-in" value="^[a-zA-Z0-9]+@[a-z]+\.[a-z]{2,}$"><button class="btn btn-primary" onclick="explainRegex()" style="padding:0.5rem 1.5rem;">Explain</button></div>
-                        <div class="ide-editor" id="rx-out" style="overflow-y:auto;">Press explain to parse components.</div>
+            <!-- TOKENS / ENCODING -->
+            <section class="view" id="view-tokens">
+                <div class="page-header" style="margin-bottom:0;">
+                    <div><h1>Encoding & Tokens</h1><p>Decode JWTs securely offline and convert Base64.</p></div>
+                </div>
+                <div class="ide-tabbar" style="border-bottom: 1px solid var(--border-light);">
+                    <div class="ide-tab active" id="tab-btn-jwt" onclick="switchTokenTab('jwt')">JWT Decoder</div>
+                    <div class="ide-tab" id="tab-btn-b64" onclick="switchTokenTab('b64')">Base64 Converter</div>
+                </div>
+                
+                <!-- JWT TOOL -->
+                <div id="tool-jwt" style="display:flex; flex-direction:column; height:calc(100vh - 190px);">
+                    <div class="ide-split" style="flex:1;">
+                        <div class="ide-pane">
+                            <div class="ide-toolbar" style="justify-content:space-between;">
+                                <div><i data-lucide="key" style="vertical-align:middle; width:16px;"></i> JWT Input</div>
+                                <div>
+                                    <button class="btn" style="padding:0.25rem 0.75rem; font-size:0.8rem;" onclick="loadSampleJWT()">Sample</button>
+                                    <button class="btn" style="padding:0.25rem 0.75rem; font-size:0.8rem;" onclick="document.getElementById('jwt-in').value=''; decodeJWT();">Clear</button>
+                                </div>
+                            </div>
+                            <textarea id="jwt-in" class="ide-editor" spellcheck="false" placeholder="Paste your eyJ... JWT here.&#10;&#10;Security Notice: Local decoding only. Signatures are NOT verified. Never paste production secrets in public tools." oninput="decodeJWT()"></textarea>
+                        </div>
+                        <div class="ide-pane" style="border-left:1px solid var(--border-light); display:flex; flex-direction:column; background:var(--bg-main);">
+                            <div id="jwt-error" style="display:none; padding:1rem; background:rgba(255,0,0,0.1); color:var(--danger); border-bottom:1px solid rgba(255,0,0,0.2);">Invalid JWT Format</div>
+                            <div class="ide-editor" style="padding:0; overflow-y:auto; flex:1;">
+                                <div style="padding:1rem; border-bottom:1px solid var(--border-light);">
+                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                                        <h3 style="color:#d73a49; font-size:0.9rem; margin:0;">HEADER <span style="color:var(--text-muted); font-size:0.75rem; font-weight:normal;">(Algorithm & Type)</span></h3>
+                                        <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="copyText(document.getElementById('jwt-header-out').textContent)">Copy</button>
+                                    </div>
+                                    <pre id="jwt-header-out" class="mono" style="margin:0; font-size:0.85rem; color:var(--text-dark);"></pre>
+                                </div>
+                                <div style="padding:1rem; border-bottom:1px solid var(--border-light);">
+                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                                        <h3 style="color:#b392f0; font-size:0.9rem; margin:0;">PAYLOAD <span style="color:var(--text-muted); font-size:0.75rem; font-weight:normal;">(Data & Claims)</span></h3>
+                                        <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="copyText(document.getElementById('jwt-payload-out').textContent)">Copy</button>
+                                    </div>
+                                    <pre id="jwt-payload-out" class="mono" style="margin:0; font-size:0.85rem; color:var(--text-dark);"></pre>
+                                </div>
+                                <div style="padding:1rem;">
+                                    <h3 style="color:#22863a; font-size:0.9rem; margin-bottom:0.5rem;">SIGNATURE</h3>
+                                    <div id="jwt-sig-out" class="mono" style="font-size:0.85rem; color:var(--text-muted); word-break:break-all;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BASE64 TOOL -->
+                <div id="tool-b64" style="display:none; flex-direction:column; height:calc(100vh - 190px);">
+                    <div class="ide-split" style="flex:1;">
+                        <div class="ide-pane">
+                            <div class="ide-toolbar" style="justify-content:space-between;">
+                                <div style="display:flex; align-items:center; gap:0.5rem;">
+                                    <select id="b64-mode" class="input" style="padding:0.2rem; font-size:0.85rem;" onchange="convertBase64()">
+                                        <option value="encode">Encode to Base64</option>
+                                        <option value="decode">Decode from Base64</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <button class="btn" style="padding:0.25rem 0.75rem; font-size:0.8rem;" onclick="document.getElementById('b64-in').value='Hello, DevKit! \\uD83D\\uDC4B'; convertBase64();">Sample</button>
+                                    <button class="btn" style="padding:0.25rem 0.75rem; font-size:0.8rem;" onclick="swapB64()">Swap</button>
+                                    <button class="btn" style="padding:0.25rem 0.75rem; font-size:0.8rem;" onclick="document.getElementById('b64-in').value=''; convertBase64();">Clear</button>
+                                </div>
+                            </div>
+                            <textarea id="b64-in" class="ide-editor" spellcheck="false" placeholder="Enter text here..." oninput="convertBase64()"></textarea>
+                        </div>
+                        <div class="ide-pane" style="border-left:1px solid var(--border-light); display:flex; flex-direction:column;">
+                            <div class="ide-toolbar" style="justify-content:space-between;">
+                                <div>Output</div>
+                                <button class="btn" style="padding:0.25rem 0.75rem; font-size:0.8rem;" onclick="copyText(document.getElementById('b64-out').value)">Copy</button>
+                            </div>
+                            <textarea id="b64-out" class="ide-editor" spellcheck="false" readonly style="background:var(--bg-main);"></textarea>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -368,6 +497,6 @@
     </div>
     
     <div id="toast-container"></div>
-    <script src="app.js?v=7"></script>
+    <script src="app.js?v=10"></script>
 </body>
 </html>

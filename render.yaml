@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: devkit-prototype-ui
+    env: static
+    buildCommand: ""
+    staticPublishPath: ./prototype-ui
+    autoDeploy: true

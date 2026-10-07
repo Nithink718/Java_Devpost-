@@ -1,3 +1,5 @@
 bin/
 data/
 *.class
+prototype-ui/node_modules/
+prototype-ui/dist/

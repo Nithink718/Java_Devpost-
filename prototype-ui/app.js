@@ -27,6 +27,16 @@ function showToast(msg, type='info') {
     lucide.createIcons();
     setTimeout(() => { toast.style.opacity = '0'; setTimeout(()=>toast.remove(), 200); }, 3000);
 }
+// --- LANDING PAGE ---
+function enterApp() {
+    const lp = document.getElementById('landing-page');
+    if(!lp) return;
+    lp.style.opacity = '0';
+    lp.style.transform = 'scale(1.05)';
+    setTimeout(() => {
+        lp.style.display = 'none';
+    }, 500);
+}
 
 // --- NAVIGATION ---
 function nav(viewId) {
@@ -46,6 +56,25 @@ function nav(viewId) {
     if(viewId === 'history') renderHistory();
 }
 
+function filterTools(category, element) {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    element.classList.add('active');
+    
+    const cards = document.querySelectorAll('.grid .card');
+    cards.forEach(card => {
+        if (category === 'ALL') {
+            card.style.display = '';
+        } else {
+            const badge = card.querySelector('.card-badge');
+            if (badge && badge.textContent.trim().toUpperCase() === category) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        }
+    });
+}
+
 // --- CMD PALETTE ---
 const commands = [
     { name: 'Dashboard Overview', icon: 'layout-dashboard', view: 'dashboard', cat: 'WORKSPACE' },
@@ -54,9 +83,9 @@ const commands = [
     { name: 'Snippets & Notes', icon: 'code-2', view: 'snippets', cat: 'WORKSPACE' },
     { name: 'Activity History', icon: 'history', view: 'history', cat: 'WORKSPACE' },
     { name: 'JSON Formatter', icon: 'brackets', view: 'json', cat: 'TOOLS' },
-    { name: 'Regex Explain', icon: 'search-code', view: 'regex', cat: 'TOOLS' },
-    { name: 'Hash Generator', icon: 'hash', view: 'hash', cat: 'TOOLS' },
-    { name: 'Diff Checker', icon: 'git-compare', view: 'diff', cat: 'TOOLS' },
+    { name: 'Encoding & Tokens', icon: 'key', view: 'tokens', cat: 'SECURITY', keywords: 'jwt token decoder base64 encode decode' },
+    { name: 'Hash Generator', icon: 'hash', view: 'hash', cat: 'SECURITY' },
+    { name: 'Diff Checker', icon: 'git-compare', view: 'diff', cat: 'TEXT' },
     { name: 'Error Analyzer', icon: 'alert-triangle', view: 'error', cat: 'DEBUG' },
     { name: 'Cron Builder', icon: 'clock', view: 'cron', cat: 'SERVER' },
     { name: 'Webhook Tester', icon: 'radio-receiver', view: 'webhook', cat: 'NETWORK' },
@@ -73,7 +102,7 @@ function closeCmd() { cmdOverlay.classList.remove('active'); }
 
 function renderCmd(query) {
     const q = query.toLowerCase();
-    const filtered = commands.filter(c => c.name.toLowerCase().includes(q) || c.cat.toLowerCase().includes(q));
+    const filtered = commands.filter(c => c.name.toLowerCase().includes(q) || c.cat.toLowerCase().includes(q) || (c.keywords && c.keywords.toLowerCase().includes(q)));
     cmdResults.innerHTML = '';
     
     if(filtered.length === 0) {
@@ -98,7 +127,7 @@ function renderCmd(query) {
 
 cmdInput.addEventListener('keydown', (e) => {
     const q = cmdInput.value.toLowerCase();
-    const filtered = commands.filter(c => c.name.toLowerCase().includes(q) || c.cat.toLowerCase().includes(q));
+    const filtered = commands.filter(c => c.name.toLowerCase().includes(q) || c.cat.toLowerCase().includes(q) || (c.keywords && c.keywords.toLowerCase().includes(q)));
     
     if(e.key === 'Escape') closeCmd();
     else if(e.key === 'ArrowDown') { e.preventDefault(); cmdIndex = Math.min(cmdIndex + 1, filtered.length - 1); renderCmd(cmdInput.value); }
@@ -216,31 +245,109 @@ function parseCron() {
     document.getElementById('cron-human').textContent = h;
 }
 
-// --- REGEX EXPLAIN ---
-function explainRegex() {
-    const rx = document.getElementById('rx-in').value;
-    const out = document.getElementById('rx-out');
-    let html = `<div class="p-4" style="font-family:var(--font-mono); font-size:0.9rem; display:flex; flex-direction:column; gap:1.25rem;">`;
+// --- ENCODING & TOKENS ---
+function switchTokenTab(tab) {
+    document.getElementById('tab-btn-jwt').classList.remove('active');
+    document.getElementById('tab-btn-b64').classList.remove('active');
+    document.getElementById('tool-jwt').style.display = 'none';
+    document.getElementById('tool-b64').style.display = 'none';
     
-    let explain = [];
-    if(rx.startsWith('^')) explain.push({t: '^', d: 'Start of string'});
-    if(rx.includes('[a-zA-Z0-9]')) explain.push({t: '[a-zA-Z0-9]', d: 'Matches any alphanumeric character'});
-    if(rx.includes('+')) explain.push({t: '+', d: 'One or more occurrences'});
-    if(rx.includes('@')) explain.push({t: '@', d: 'Literal "@" character'});
-    if(rx.includes('{2,}')) explain.push({t: '{2,}', d: 'Two or more occurrences'});
-    if(rx.endsWith('$')) explain.push({t: '$', d: 'End of string'});
+    document.getElementById('tab-btn-' + tab).classList.add('active');
+    document.getElementById('tool-' + tab).style.display = 'flex';
+}
+
+function decodeJWT() {
+    const input = document.getElementById('jwt-in').value.trim();
+    const err = document.getElementById('jwt-error');
+    const hout = document.getElementById('jwt-header-out');
+    const pout = document.getElementById('jwt-payload-out');
+    const sout = document.getElementById('jwt-sig-out');
     
-    if(explain.length === 0) {
-        html += `<div style="color:var(--text-muted);">Could not parse components for explanation.</div>`;
-    } else {
-        explain.forEach(e => {
-            html += `<div><div style="color:var(--gold-primary); font-weight:700; font-size:1.1rem; margin-bottom:0.25rem;">${e.t}</div><div style="color:var(--text-muted);">${e.d}</div></div>`;
-        });
+    hout.textContent = ''; pout.textContent = ''; sout.textContent = ''; err.style.display = 'none';
+    if(!input) return;
+    
+    const parts = input.split('.');
+    if(parts.length !== 3) { err.style.display = 'block'; return; }
+    
+    try {
+        const b64DecodeUnicode = (str) => {
+            let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+            while (base64.length % 4 !== 0) base64 += '=';
+            const binStr = atob(base64);
+            const bytes = new Uint8Array(binStr.length);
+            for (let i = 0; i < binStr.length; i++) bytes[i] = binStr.charCodeAt(i);
+            return new TextDecoder('utf-8').decode(bytes);
+        };
+        
+        const header = JSON.parse(b64DecodeUnicode(parts[0]));
+        const payload = JSON.parse(b64DecodeUnicode(parts[1]));
+        
+        if(payload.exp) payload.exp_human = new Date(payload.exp * 1000).toLocaleString();
+        if(payload.iat) payload.iat_human = new Date(payload.iat * 1000).toLocaleString();
+        
+        hout.textContent = JSON.stringify(header, null, 2);
+        pout.textContent = JSON.stringify(payload, null, 2);
+        sout.textContent = parts[2];
+        logHistory('Decoded JWT');
+    } catch(e) {
+        err.style.display = 'block';
     }
+}
+
+function loadSampleJWT() {
+    const header = btoa(JSON.stringify({alg:"HS256",typ:"JWT"})).replace(/=/g,'');
+    const payload = btoa(JSON.stringify({sub:"1234567890",name:"DevKit User",iat:1516239022,role:"admin"})).replace(/=/g,'');
+    document.getElementById('jwt-in').value = `${header}.${payload}.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`;
+    decodeJWT();
+}
+
+function convertBase64() {
+    const mode = document.getElementById('b64-mode').value;
+    const input = document.getElementById('b64-in').value;
+    const out = document.getElementById('b64-out');
+    out.value = '';
+    if(!input) return;
     
-    html += `</div>`;
-    out.innerHTML = html;
-    logHistory('Regex Explained');
+    try {
+        if(mode === 'encode') {
+            const bytes = new TextEncoder().encode(input);
+            let binStr = "";
+            for (let i = 0; i < bytes.length; i++) binStr += String.fromCharCode(bytes[i]);
+            out.value = btoa(binStr);
+            logHistory('Encoded Base64');
+        } else {
+            const binStr = atob(input.trim());
+            const bytes = new Uint8Array(binStr.length);
+            for (let i = 0; i < binStr.length; i++) bytes[i] = binStr.charCodeAt(i);
+            out.value = new TextDecoder('utf-8').decode(bytes);
+            logHistory('Decoded Base64');
+        }
+    } catch(e) {
+        out.value = 'Error: Invalid input for Base64 conversion.';
+    }
+}
+
+function swapB64() {
+    const modeEl = document.getElementById('b64-mode');
+    const inEl = document.getElementById('b64-in');
+    const outEl = document.getElementById('b64-out');
+    
+    const oldOut = outEl.value;
+    modeEl.value = modeEl.value === 'encode' ? 'decode' : 'encode';
+    
+    if(!oldOut.startsWith('Error:')) {
+        inEl.value = oldOut;
+    }
+    convertBase64();
+}
+
+function copyText(txt) {
+    if(!txt) return;
+    navigator.clipboard.writeText(txt).then(() => {
+        showToast('Copied to clipboard');
+    }).catch(err => {
+        showToast('Failed to copy', 'error');
+    });
 }
 
 // --- WEBHOOK TESTER ---
